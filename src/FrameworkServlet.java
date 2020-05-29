@@ -32,6 +32,7 @@ public class FrameworkServlet extends HttpServlet {
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		PrintWriter out = response.getWriter();
 		out.println("this is a test of my servlet");
+		out.println("Kailen Test");
 	}
 
 	/**
