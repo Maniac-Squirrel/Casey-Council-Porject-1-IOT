@@ -28,5 +28,5 @@ jobs:
       with:
         app-name: 'willstest1'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_d4450712990948ab8adac8df1632f902 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_1b2b513962274d83b61adc7612b884df }}
         package: '${{ github.workspace }}/target/*.war'
