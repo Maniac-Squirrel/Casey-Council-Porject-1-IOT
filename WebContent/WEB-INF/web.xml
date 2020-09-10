@@ -7,9 +7,20 @@
 		<servlet-class>webapp.FrameworkServlet</servlet-class>
 	</servlet>
 	
+	<servlet>
+		<servlet-name>Login</servlet-name>
+		<servlet-class>webapp.Login</servlet-class>
+	</servlet>
+	
 	<servlet-mapping>
 		<servlet-name>FrameworkServlet</servlet-name>
-		<url-pattern>/Home</url-pattern>
+		<url-pattern>/home</url-pattern>
 	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>Login</servlet-name>
+		<url-pattern>/dashboard</url-pattern>
+	</servlet-mapping>
+	
 
 </web-app>
