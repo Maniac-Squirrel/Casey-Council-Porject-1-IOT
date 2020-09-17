@@ -8,26 +8,23 @@ Gson gsonObj = new Gson();
 Map<Object,Object> map = null;
 List<Map<Object,Object>> list = new ArrayList<Map<Object,Object>>();
  
-map = new HashMap<Object,Object>(); map.put("x", 10); map.put("y", 31); list.add(map);
-map = new HashMap<Object,Object>(); map.put("x", 20); map.put("y", 65); list.add(map);
-map = new HashMap<Object,Object>(); map.put("x", 30); map.put("y", 40); list.add(map);
-map = new HashMap<Object,Object>(); map.put("x", 40); map.put("y", 84); map.put("indexLabel", "Highest"); list.add(map);
-map = new HashMap<Object,Object>(); map.put("x", 50); map.put("y", 68); list.add(map);
-map = new HashMap<Object,Object>(); map.put("x", 60); map.put("y", 64); list.add(map);
-map = new HashMap<Object,Object>(); map.put("x", 70); map.put("y", 38); list.add(map);
-map = new HashMap<Object,Object>(); map.put("x", 80); map.put("y", 71); list.add(map);
-map = new HashMap<Object,Object>(); map.put("x", 90); map.put("y", 54); list.add(map);
-map = new HashMap<Object,Object>(); map.put("x", 100); map.put("y", 60); list.add(map);
-map = new HashMap<Object,Object>(); map.put("x", 110); map.put("y", 21); map.put("indexLabel", "Lowest"); list.add(map);
-map = new HashMap<Object,Object>(); map.put("x", 120); map.put("y", 49); list.add(map);
-map = new HashMap<Object,Object>(); map.put("x", 130); map.put("y", 41); list.add(map);
- 
+ArrayList<Float> dbResult =  
+(ArrayList<Float>)request.getAttribute("data");
+
+
+for(int i = 0; i < dbResult.size(); i++){
+	map = new HashMap<Object,Object>(); map.put("x", i); map.put("y", dbResult.get(i)); list.add(map);
+}
+
+
 String dataPoints = gsonObj.toJson(list);
 %>
  
 <!DOCTYPE HTML>
 <html>
 <head>
+	
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript">
 window.onload = function() { 
@@ -79,7 +76,7 @@ chart2.render();
 
 </head>
 <body>
-<div id="chartContainer" style="height: 100px; width: 25%;"></div>
+<div id="chartContainer" style="height: 100px; width: 100%;"></div>
 <div id="chartContainer2" style="height: 100px; width: 25%;"></div>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </body>
