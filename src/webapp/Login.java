@@ -44,7 +44,6 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//doGet(request, response);
 		
 		response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -55,8 +54,6 @@ public class Login extends HttpServlet {
         if(Validate.checkUser(username, password))
         {
         	response.sendRedirect(request.getContextPath() + "/FrameworkServlet");
-//            RequestDispatcher rs = request.getRequestDispatcher("FrameworkServlet");
-//            rs.forward(request, response);
         }
         else
         {

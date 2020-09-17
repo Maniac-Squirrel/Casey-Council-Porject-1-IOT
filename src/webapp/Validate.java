@@ -28,7 +28,6 @@ public class Validate {
     		}
     		
             Connection connection = null;
-            //log.info("Connecting to the database");
             
             try {
     			connection = DriverManager.getConnection(properties.getProperty("url"), properties);
