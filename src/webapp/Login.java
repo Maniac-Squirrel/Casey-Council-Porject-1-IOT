@@ -54,14 +54,15 @@ public class Login extends HttpServlet {
         
         if(Validate.checkUser(username, password))
         {
-            RequestDispatcher rs = request.getRequestDispatcher("FrameworkTesting.jsp");
-            rs.forward(request, response);
+        	response.sendRedirect(request.getContextPath() + "/FrameworkServlet");
+//            RequestDispatcher rs = request.getRequestDispatcher("FrameworkServlet");
+//            rs.forward(request, response);
         }
         else
         {
-           out.println("Username or Password incorrect");
-           RequestDispatcher rs = request.getRequestDispatcher("index.jsp");
-           rs.include(request, response);
+        	RequestDispatcher rs = request.getRequestDispatcher("index.jsp");
+        	rs.include(request, response);
+        	out.println("<html><font color=red>Username or Password Incorrect!</font></html>");
         }
 		
 	}

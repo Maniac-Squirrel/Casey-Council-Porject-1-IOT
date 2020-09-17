@@ -40,7 +40,7 @@ public class Validate {
     			e.printStackTrace();
     		}
 
-            PreparedStatement readStatement = connection.prepareStatement("SELECT * FROM Customers WHERE Username=? and Password?");
+            PreparedStatement readStatement = connection.prepareStatement("SELECT * FROM Customers WHERE Username=? and Password=?");
     	    readStatement.setString(1, username);
     	    readStatement.setString(2, password);
     	    ResultSet resultSet = readStatement.executeQuery();
