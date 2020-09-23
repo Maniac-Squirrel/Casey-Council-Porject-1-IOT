@@ -212,5 +212,15 @@ chart6.render();
 <div id="chartContainer5" style="height: 150px; width: 50%;"></div>
 <div id="chartContainer6" style="height: 150px; width: 50%;"></div>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+
+<form action="Community">
+		<input type="submit" value="Community graphs"/>
+		</form>
+		
+<form action="UserProfile">
+		<input type="submit" value="User Preferences"/>
+		</form>		
+
 </body>
 </html>          
