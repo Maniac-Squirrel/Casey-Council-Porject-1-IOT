@@ -331,11 +331,15 @@ chart6.render();
 <div id="chartContainer6" style="height: 300px; width: 50%;"></div>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
+<br>
+
 <form action="home?id=<%= request.getParameter("id") %>" method="post">
 		<input type="submit" value="Individual Graphs"/>
 		</form>
 		
-<form action="UserProfile">
+<br>		
+		
+<form action="profile?id=<%= request.getParameter("id") %>" method="post">
 		<input type="submit" value="User Preferences"/>
 		</form>	
 </body>
