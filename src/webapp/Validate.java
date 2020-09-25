@@ -16,21 +16,11 @@ public class Validate {
 
             //loading drivers for mysql
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
-            //creating connection with the database
-            
-            Properties properties = new Properties();
-            try {
-    			properties.load(FrameworkServlet.class.getClassLoader().getResourceAsStream("application.properties"));
-    		} catch (IOException e2) {
-    			// TODO Auto-generated catch block
-    			e2.printStackTrace();
-    		}
     		
             Connection connection = null;
             
             try {
-    			connection = DriverManager.getConnection(properties.getProperty("url"), properties);
+    			connection = DriverManager.getConnection("jdbc:sqlserver://iotdbserver01.database.windows.net:1433;database=IOTData;user=sysAdmin@iotdbserver01;password=fhxghjk,157.;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;");
     			
     			
 
