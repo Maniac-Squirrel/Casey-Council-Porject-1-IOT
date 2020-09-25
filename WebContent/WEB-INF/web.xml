@@ -29,20 +29,17 @@
 
 	<servlet-mapping>
 		<servlet-name>Login</servlet-name>
-		<url-pattern>/dashboard</url-pattern>
-		</servlet-mapping>
-		
-	<servlet-mapping>
+    <url-pattern>/login</url-pattern>
+	</servlet-mapping>
+  
+<servlet-mapping>
 		<servlet-name>CommunityDashboard</servlet-name>
 		<url-pattern>/Community</url-pattern>
 	</servlet-mapping>
-	
+  
 		<servlet-mapping>
 		<servlet-name>UserPrefs</servlet-name>
 		<url-pattern>/UserProfile</url-pattern>
 	</servlet-mapping>
-	
-	
-	
-
+  
 </web-app>
