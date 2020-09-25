@@ -56,7 +56,7 @@ public class Login extends HttpServlet {
         
         if(Validate.checkUser(username, password))
         {
-        	response.sendRedirect(request.getContextPath() + "/FrameworkServlet?id="+EncryptionUtil.encode(UserID));
+        	response.sendRedirect(request.getContextPath() + "/home?id="+EncryptionUtil.encode(UserID));
         }
         else
         {
