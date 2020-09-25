@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 public class FrameworkServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static final Logger log = null;
+    private Connection connection = null;
     ArrayList<Float> resultsList = new ArrayList<Float>();
     
     /**
@@ -66,7 +67,7 @@ public class FrameworkServlet extends HttpServlet {
 			e2.printStackTrace();
 		}
 		
-        Connection connection = null;
+        //Connection connection = null;
         //log.info("Connecting to the database");
         
         try {
@@ -86,12 +87,7 @@ public class FrameworkServlet extends HttpServlet {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}	
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
 			/*
 			for (int i = 0; i < customerNames.size(); i++) {
 				System.out.println(customerNames.get(i));
@@ -128,8 +124,194 @@ public class FrameworkServlet extends HttpServlet {
 	    return resultSet.getString(1);
 	}
 	
-	
+	private ArrayList<DateFloatHolder> avgElecPerDay(Connection connection) throws SQLException
+	{
+		ArrayList<DateFloatHolder> objectarray = new ArrayList<DateFloatHolder>();
+		 PreparedStatement readStatement = connection.prepareStatement("select datename(weekday, convert(datetime, RecordDate, 103)) as Day , avg([ElectricityUsageKw/h]) as avgusage\r\n" + 
+		 		"  FROM [dbo].[ElectricitySensorFile]\r\n" + 
+		 		"    where CustomerID = 'cu1'\r\n" + 
+		 		"  group by datename(weekday, convert(datetime, RecordDate, 103))");
+		   ResultSet resultSet = readStatement.executeQuery();
+		   DateFloatHolder point = null; 
+		   
+		if (!resultSet.next()) {
+	        log.info("There is no data in the database!");
+	        return null;
+	    } else {
+	    		point = new DateFloatHolder(resultSet.getString(1), resultSet.getFloat(2));
+	    		objectarray.add(point);
 
+	    		    
+	    while(resultSet.next()) 
+	    {
+	    	point = new DateFloatHolder(resultSet.getString(1), resultSet.getFloat(2));
+    		objectarray.add(point);
+
+		
+	    }
+		return objectarray;
+	   
+		
+	}
+	}
+	
+	private ArrayList<DateFloatHolder> avgElecPerMonth(Connection connection) throws SQLException
+	{
+		ArrayList<DateFloatHolder> objectarray = new ArrayList<DateFloatHolder>();
+		 PreparedStatement readStatement = connection.prepareStatement("select datename(month, convert(datetime, RecordDate, 103)) as avgusagepermonth , avg([ElectricityUsageKw/h]) as avgusage\r\n" + 
+		 		"  FROM [dbo].[ElectricitySensorFile]\r\n" + 
+		 		"    where CustomerID = 'cu1'\r\n" + 
+		 		"  group by datename(month, convert(datetime, RecordDate, 103))");
+		   ResultSet resultSet = readStatement.executeQuery();
+		   DateFloatHolder point = null; 
+		   
+		if (!resultSet.next()) {
+	        log.info("There is no data in the database!");
+	        return null;
+	    } else {
+	    		point = new DateFloatHolder(resultSet.getString(1), resultSet.getFloat(2));
+	    		objectarray.add(point);
+
+	    		    
+	    while(resultSet.next()) 
+	    {
+	    	point = new DateFloatHolder(resultSet.getString(1), resultSet.getFloat(2));
+    		objectarray.add(point);
+
+		
+	    }
+		return objectarray;
+	   
+		
+	}
+	}
+	
+	private ArrayList<DateFloatHolder> avgGasPerMonth(Connection connection) throws SQLException
+	{
+		ArrayList<DateFloatHolder> objectarray = new ArrayList<DateFloatHolder>();
+		 PreparedStatement readStatement = connection.prepareStatement("select datename(month, convert(datetime, RecordDate, 103)) as avgusagepermonth , avg([GasUsageMJ/H]) as avgusage\r\n" + 
+		 		"  FROM [dbo].[GasSensorFile]\r\n" + 
+		 		"    where CustomerID = 'cu1'\r\n" + 
+		 		"  group by datename(month, convert(datetime, RecordDate, 103))");
+		   ResultSet resultSet = readStatement.executeQuery();
+		   DateFloatHolder point = null; 
+		   
+		if (!resultSet.next()) {
+	        log.info("There is no data in the database!");
+	        return null;
+	    } else {
+	    		point = new DateFloatHolder(resultSet.getString(1), resultSet.getFloat(2));
+	    		objectarray.add(point);
+
+	    		    
+	    while(resultSet.next()) 
+	    {
+	    	point = new DateFloatHolder(resultSet.getString(1), resultSet.getFloat(2));
+    		objectarray.add(point);
+
+		
+	    }
+		return objectarray;
+	   
+		
+	}
+	}
+	
+	private ArrayList<DateFloatHolder> avgGasPerDay(Connection connection) throws SQLException
+	{
+		ArrayList<DateFloatHolder> objectarray = new ArrayList<DateFloatHolder>();
+		 PreparedStatement readStatement = connection.prepareStatement("select datename(weekday, convert(datetime, RecordDate, 103)) as avgusagepermonth , avg([GasUsageMJ/H]) as avgusage\r\n" + 
+		 		"  FROM [dbo].[GasSensorFile]\r\n" + 
+		 		"    where CustomerID = 'cu1'\r\n" + 
+		 		"  group by datename(weekday, convert(datetime, RecordDate, 103))");
+		   ResultSet resultSet = readStatement.executeQuery();
+		   DateFloatHolder point = null; 
+		   
+		if (!resultSet.next()) {
+	        log.info("There is no data in the database!");
+	        return null;
+	    } else {
+	    		point = new DateFloatHolder(resultSet.getString(1), resultSet.getFloat(2));
+	    		objectarray.add(point);
+
+	    		    
+	    while(resultSet.next()) 
+	    {
+	    	point = new DateFloatHolder(resultSet.getString(1), resultSet.getFloat(2));
+    		objectarray.add(point);
+
+		
+	    }
+		return objectarray;
+	   
+		
+	}
+	}
+
+	
+	private ArrayList<DateFloatHolder> avgWaterPerDay(Connection connection) throws SQLException
+	{
+		ArrayList<DateFloatHolder> objectarray = new ArrayList<DateFloatHolder>();
+		 PreparedStatement readStatement = connection.prepareStatement("select datename(weekday, convert(datetime, RecordDate, 103)) as avgusagepermonth , avg([WaterUsageL/h]) as avgusage\r\n" + 
+		 		"  FROM [dbo].[WaterSensorFile]\r\n" + 
+		 		"    where CustomerID = 'cu1'\r\n" + 
+		 		"  group by datename(weekday, convert(datetime, RecordDate, 103))");
+		   ResultSet resultSet = readStatement.executeQuery();
+		   DateFloatHolder point = null; 
+		   
+		if (!resultSet.next()) {
+	        log.info("There is no data in the database!");
+	        return null;
+	    } else {
+	    		point = new DateFloatHolder(resultSet.getString(1), resultSet.getFloat(2));
+	    		objectarray.add(point);
+
+	    		    
+	    while(resultSet.next()) 
+	    {
+	    	point = new DateFloatHolder(resultSet.getString(1), resultSet.getFloat(2));
+    		objectarray.add(point);
+
+		
+	    }
+		return objectarray;
+	   
+		
+	}
+	}
+	
+	private ArrayList<DateFloatHolder> avgWaterPerMonth(Connection connection) throws SQLException
+	{
+		ArrayList<DateFloatHolder> objectarray = new ArrayList<DateFloatHolder>();
+		 PreparedStatement readStatement = connection.prepareStatement("select datename(month, convert(datetime, RecordDate, 103)) as avgusagepermonth , avg([WaterUsageL/h]) as avgusage\r\n" + 
+		 		"  FROM [dbo].[WaterSensorFile]\r\n" + 
+		 		"    where CustomerID = 'cu1'\r\n" + 
+		 		"  group by datename(month, convert(datetime, RecordDate, 103))");
+		   ResultSet resultSet = readStatement.executeQuery();
+		   DateFloatHolder point = null; 
+		   
+		if (!resultSet.next()) {
+	        log.info("There is no data in the database!");
+	        return null;
+	    } else {
+	    		point = new DateFloatHolder(resultSet.getString(1), resultSet.getFloat(2));
+	    		objectarray.add(point);
+
+	    		    
+	    while(resultSet.next()) 
+	    {
+	    	point = new DateFloatHolder(resultSet.getString(1), resultSet.getFloat(2));
+    		objectarray.add(point);
+
+		
+	    }
+		return objectarray;
+	   
+		
+	}
+	}
+	
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -148,7 +330,62 @@ public class FrameworkServlet extends HttpServlet {
 	    { 
 		 connectDB();
 	      //System.out.println(customerNames.toString());
-	      request.setAttribute("data", resultsList); 
+	      request.setAttribute("data", resultsList);
+	      try {
+			System.out.println(avgElecPerDay(connection).get(1).getColumn1());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+	      try {
+			request.setAttribute("avgperelecday", avgElecPerDay(connection));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	      
+	      try {
+			request.setAttribute("avgperelecmonth", avgElecPerMonth(connection));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	      
+	      try {
+			request.setAttribute("avgpergasmonth", avgGasPerMonth(connection));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	      
+	      try {
+			request.setAttribute("avgpergasday", avgGasPerDay(connection));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	      
+	      try {
+			request.setAttribute("avgperwaterday", avgWaterPerDay(connection));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	      
+	      try {
+			request.setAttribute("avgperwatermonth", avgWaterPerMonth(connection));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	      
+	      try {
+				connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	      
 	      RequestDispatcher rd =  
 	              request.getRequestDispatcher("graphTest.jsp"); 
