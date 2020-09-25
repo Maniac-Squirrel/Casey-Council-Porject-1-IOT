@@ -214,8 +214,8 @@ chart6.render();
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
 
-<form action="Community">
-		<input type="submit" value="Community graphs"/>
+<form action="Community?id=<%= request.getParameter("id") %>" method="post">
+		<input type="submit" value="Community Graphs"/>
 		</form>
 		
 <form action="UserProfile">

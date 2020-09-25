@@ -25,6 +25,7 @@ public class CommunityDashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private Connection connection = null;
     private static final Logger log = null;
+    String UserID;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -40,6 +41,7 @@ public class CommunityDashboard extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		UserID = EncryptionUtil.decode(request.getParameter("id"));
 		
 		processRequest(request, response);
 	}
@@ -102,7 +104,8 @@ public class CommunityDashboard extends HttpServlet {
 		ArrayList<Float> objectarray = new ArrayList<Float>();
 		 PreparedStatement readStatement = connection.prepareStatement("SELECT sum([ElectricityUsageKw/h])\r\n" + 
 		 		"  FROM [dbo].[ElectricitySensorFile]\r\n" + 
-		 		"  where CustomerID = 'cu1'");
+		 		"  where CustomerID = ?");
+		 readStatement.setString(1, UserID);
 		   ResultSet resultSet = readStatement.executeQuery();
 		   
 		   PreparedStatement readStatment2 = connection.prepareStatement("SELECT sum([ElectricityUsageKw/h])\r\n" + 
@@ -136,7 +139,8 @@ public class CommunityDashboard extends HttpServlet {
 		ArrayList<Integer> objectarray = new ArrayList<Integer>();
 		 PreparedStatement readStatement = connection.prepareStatement("SELECT sum([WaterUsageL/h])\r\n" + 
 		 		"  FROM [dbo].[WaterSensorFile]\r\n" + 
-		 		"  Where CustomerID = 'cu1'");
+		 		"  Where CustomerID = ?");
+		 readStatement.setString(1, UserID);
 		   ResultSet resultSet = readStatement.executeQuery();
 		   
 		   PreparedStatement readStatment2 = connection.prepareStatement("SELECT sum([WaterUsageL/h])\r\n" + 
@@ -170,7 +174,8 @@ public class CommunityDashboard extends HttpServlet {
 		ArrayList<Float> objectarray = new ArrayList<Float>();
 		 PreparedStatement readStatement = connection.prepareStatement("SELECT sum([GasUsageMJ/H])\r\n" + 
 		 		"  FROM [dbo].[GasSensorFile]\r\n" + 
-		 		"  Where CustomerID = 'cu1'");
+		 		"  Where CustomerID = ?");
+		 readStatement.setString(1, UserID);
 		   ResultSet resultSet = readStatement.executeQuery();
 		   
 		   PreparedStatement readStatment2 = connection.prepareStatement("SELECT sum([GasUsageMJ/H])\r\n" + 
@@ -204,8 +209,9 @@ public class CommunityDashboard extends HttpServlet {
 		ArrayList<DateFloatHolder> objectarray = new ArrayList<DateFloatHolder>();
 		 PreparedStatement readStatement = connection.prepareStatement("select datename(weekday, convert(datetime, RecordDate, 103)) as totalusageperday , sum([WaterUsageL/h]) as totalusage\r\n" + 
 		 		"  FROM [dbo].[WaterSensorFile]\r\n" + 
-		 		"    where CustomerID = 'cu1' AND convert(datetime, RecordDate, 103) between dateadd(day,-7,getdate()) and getdate()\r\n" + 
+		 		"    where CustomerID = ? AND convert(datetime, RecordDate, 103) between dateadd(day,-7,getdate()) and getdate()\r\n" + 
 		 		"  group by datename(weekday, convert(datetime, RecordDate, 103))");
+		 readStatement.setString(1, UserID);
 		   ResultSet resultSet = readStatement.executeQuery();
 		   DateFloatHolder point = null; 
 		   
@@ -255,8 +261,9 @@ public class CommunityDashboard extends HttpServlet {
 		ArrayList<DateFloatHolder> objectarray = new ArrayList<DateFloatHolder>();
 		 PreparedStatement readStatement = connection.prepareStatement("select datename(weekday, convert(datetime, RecordDate, 103)) as totalusageperday , sum([ElectricityUsageKw/h]) as totalusage\r\n" + 
 		 		"  FROM [dbo].[ElectricitySensorFile]\r\n" + 
-		 		"    where convert(datetime, RecordDate, 103) between dateadd(day,-7,getdate()) and getdate() and CustomerID = 'cu1'\r\n" + 
+		 		"    where convert(datetime, RecordDate, 103) between dateadd(day,-7,getdate()) and getdate() and CustomerID = ?\r\n" + 
 		 		"  group by datename(weekday, convert(datetime, RecordDate, 103))");
+		 readStatement.setString(1, UserID);
 		   ResultSet resultSet = readStatement.executeQuery();
 		   DateFloatHolder point = null; 
 		   
@@ -306,8 +313,9 @@ public class CommunityDashboard extends HttpServlet {
 		ArrayList<DateFloatHolder> objectarray = new ArrayList<DateFloatHolder>();
 		 PreparedStatement readStatement = connection.prepareStatement("select datename(weekday, convert(datetime, RecordDate, 103)) as totalusageperday , sum([GasUsageMJ/H]) as totalusage\r\n" + 
 		 		"  FROM [dbo].[GasSensorFile]\r\n" + 
-		 		"    where convert(datetime, RecordDate, 103) between dateadd(day,-7,getdate()) and getdate() and CustomerID = 'cu1'\r\n" + 
+		 		"    where convert(datetime, RecordDate, 103) between dateadd(day,-7,getdate()) and getdate() and CustomerID = ?\r\n" + 
 		 		"  group by datename(weekday, convert(datetime, RecordDate, 103))");
+		 readStatement.setString(1, UserID);
 		   ResultSet resultSet = readStatement.executeQuery();
 		   DateFloatHolder point = null; 
 		   
