@@ -61,7 +61,7 @@ public class Login extends HttpServlet {
         }
         else
         {
-        	RequestDispatcher rs = request.getRequestDispatcher("");
+        	RequestDispatcher rs = request.getRequestDispatcher("index.jsp");
         	rs.include(request, response);
         	out.println("<html><font color=red>Username or Password Incorrect!</font></html>");
         }
