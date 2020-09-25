@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/Login")
 public class Login extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -60,7 +61,7 @@ public class Login extends HttpServlet {
         }
         else
         {
-        	RequestDispatcher rs = request.getRequestDispatcher("index.jsp");
+        	RequestDispatcher rs = request.getRequestDispatcher("");
         	rs.include(request, response);
         	out.println("<html><font color=red>Username or Password Incorrect!</font></html>");
         }
