@@ -21,7 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/UserPrefs")
 public class UserPrefs extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	String UserID, Username, Password;
+	String UserID, Username, Password, CheckID;
+	boolean CheckUsername = false, UpdateUsername = true;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -81,8 +82,33 @@ public class UserPrefs extends HttpServlet {
 			            readStatement.setString(1, Username);
 			            ResultSet rs = readStatement.executeQuery();
 			            if (rs.next()) {
+			            	 readStatement = connection.prepareStatement("SELECT CustomerID FROM Customers WHERE Username=?;");
+					         readStatement.setString(1, Username);
+					         rs = readStatement.executeQuery();
+					         while (rs.next()) {
+					    	    	CheckID = rs.getString("CustomerID");	
+					    	    }
+			            	
+			            	if(UserID.equals(CheckID)) {
+			            		
+			            		CheckUsername = true;
+			            		
+			            	} else {
 			            	out.println("<html><font color=red>Username already taken!</font></html>");
-			            } else {
+			            	UpdateUsername = false;
+			            	}
+			            	
+			            } if (CheckUsername) {
+			            	
+			            	PreparedStatement updateStatement = connection.prepareStatement("UPDATE Customers SET Username=?, Password=? WHERE CustomerID=?;");
+				            updateStatement.setString(1, Username);
+				            updateStatement.setString(2, Password);
+				    	    updateStatement.setString(3, UserID);
+				    	    updateStatement.executeUpdate();
+			            	out.println("<html><font color=green>Password updated successfully!</font></html>");
+			            	CheckUsername = false;
+			            	
+						} else if (UpdateUsername) {
 				            PreparedStatement updateStatement = connection.prepareStatement("UPDATE Customers SET Username=?, Password=? WHERE CustomerID=?;");
 				            updateStatement.setString(1, Username);
 				            updateStatement.setString(2, Password);
