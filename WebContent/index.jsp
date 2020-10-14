@@ -8,10 +8,11 @@
 </head>
 <body>
 		<h1>Please Login to View Dashboard</h1>
-		<form action="dashboard" method="post">
+		<form action="login" method="post">
 		Username: <input type="text" name="username" width="30"/>
 		Password: <input type="password" name="password" width="10"/>
 		<input type="submit" value="Login"/>
 		</form>
 </body>
+<br> 
 </html>
