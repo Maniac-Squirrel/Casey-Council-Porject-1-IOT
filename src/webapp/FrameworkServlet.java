@@ -24,6 +24,7 @@ public class FrameworkServlet extends HttpServlet {
     private static final Logger log = null;
     private Connection connection = null;
     ArrayList<Float> resultsList = new ArrayList<Float>();
+    String UserID;
     
     /**
      * @see HttpServlet#HttpServlet()
@@ -42,7 +43,7 @@ public class FrameworkServlet extends HttpServlet {
 		//PrintWriter out = response.getWriter();
 		//out.println("this is a test of my servlet");
 		//out.println("Kailen Test");
-		
+		UserID = EncryptionUtil.decode(request.getParameter("id"));
 		//connectDB();
 		processRequest(request, response);
 
@@ -58,20 +59,9 @@ public class FrameworkServlet extends HttpServlet {
 			e2.printStackTrace();
 		}
 		
-		
-		Properties properties = new Properties();
-        try {
-			properties.load(FrameworkServlet.class.getClassLoader().getResourceAsStream("application.properties"));
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		
-        //Connection connection = null;
-        //log.info("Connecting to the database");
         
         try {
-			connection = DriverManager.getConnection(properties.getProperty("url"), properties);
+			connection = DriverManager.getConnection("jdbc:sqlserver://iotdbserver01.database.windows.net:1433;database=IOTData;user=sysAdmin@iotdbserver01;password=fhxghjk,157.;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;");
 			
 			
 
@@ -98,7 +88,8 @@ public class FrameworkServlet extends HttpServlet {
 	
 	private String readData(Connection connection) throws SQLException {
 	    //log.info("Read data");
-	    PreparedStatement readStatement = connection.prepareStatement("SELECT * FROM ElectricitySensorFile WHERE CustomerID ='cu1';");
+	    PreparedStatement readStatement = connection.prepareStatement("SELECT * FROM ElectricitySensorFile WHERE CustomerID =?;");
+	    readStatement.setString(1, UserID);
 	    ResultSet resultSet = readStatement.executeQuery();
 	    
 	    if (!resultSet.next()) {
@@ -129,8 +120,9 @@ public class FrameworkServlet extends HttpServlet {
 		ArrayList<DateFloatHolder> objectarray = new ArrayList<DateFloatHolder>();
 		 PreparedStatement readStatement = connection.prepareStatement("select datename(weekday, convert(datetime, RecordDate, 103)) as Day , avg([ElectricityUsageKw/h]) as avgusage\r\n" + 
 		 		"  FROM [dbo].[ElectricitySensorFile]\r\n" + 
-		 		"    where CustomerID = 'cu1'\r\n" + 
+		 		"    where CustomerID = ?\r\n" + 
 		 		"  group by datename(weekday, convert(datetime, RecordDate, 103))");
+		 readStatement.setString(1, UserID);
 		   ResultSet resultSet = readStatement.executeQuery();
 		   DateFloatHolder point = null; 
 		   
@@ -160,8 +152,9 @@ public class FrameworkServlet extends HttpServlet {
 		ArrayList<DateFloatHolder> objectarray = new ArrayList<DateFloatHolder>();
 		 PreparedStatement readStatement = connection.prepareStatement("select datename(month, convert(datetime, RecordDate, 103)) as avgusagepermonth , avg([ElectricityUsageKw/h]) as avgusage\r\n" + 
 		 		"  FROM [dbo].[ElectricitySensorFile]\r\n" + 
-		 		"    where CustomerID = 'cu1'\r\n" + 
+		 		"    where CustomerID = ?\r\n" + 
 		 		"  group by datename(month, convert(datetime, RecordDate, 103))");
+		 readStatement.setString(1, UserID);
 		   ResultSet resultSet = readStatement.executeQuery();
 		   DateFloatHolder point = null; 
 		   
@@ -191,8 +184,9 @@ public class FrameworkServlet extends HttpServlet {
 		ArrayList<DateFloatHolder> objectarray = new ArrayList<DateFloatHolder>();
 		 PreparedStatement readStatement = connection.prepareStatement("select datename(month, convert(datetime, RecordDate, 103)) as avgusagepermonth , avg([GasUsageMJ/H]) as avgusage\r\n" + 
 		 		"  FROM [dbo].[GasSensorFile]\r\n" + 
-		 		"    where CustomerID = 'cu1'\r\n" + 
+		 		"    where CustomerID = ?\r\n" + 
 		 		"  group by datename(month, convert(datetime, RecordDate, 103))");
+		 readStatement.setString(1, UserID);
 		   ResultSet resultSet = readStatement.executeQuery();
 		   DateFloatHolder point = null; 
 		   
@@ -222,8 +216,9 @@ public class FrameworkServlet extends HttpServlet {
 		ArrayList<DateFloatHolder> objectarray = new ArrayList<DateFloatHolder>();
 		 PreparedStatement readStatement = connection.prepareStatement("select datename(weekday, convert(datetime, RecordDate, 103)) as avgusagepermonth , avg([GasUsageMJ/H]) as avgusage\r\n" + 
 		 		"  FROM [dbo].[GasSensorFile]\r\n" + 
-		 		"    where CustomerID = 'cu1'\r\n" + 
+		 		"    where CustomerID = ?\r\n" + 
 		 		"  group by datename(weekday, convert(datetime, RecordDate, 103))");
+		 readStatement.setString(1, UserID);
 		   ResultSet resultSet = readStatement.executeQuery();
 		   DateFloatHolder point = null; 
 		   
@@ -254,8 +249,9 @@ public class FrameworkServlet extends HttpServlet {
 		ArrayList<DateFloatHolder> objectarray = new ArrayList<DateFloatHolder>();
 		 PreparedStatement readStatement = connection.prepareStatement("select datename(weekday, convert(datetime, RecordDate, 103)) as avgusagepermonth , avg([WaterUsageL/h]) as avgusage\r\n" + 
 		 		"  FROM [dbo].[WaterSensorFile]\r\n" + 
-		 		"    where CustomerID = 'cu1'\r\n" + 
+		 		"    where CustomerID = ?\r\n" + 
 		 		"  group by datename(weekday, convert(datetime, RecordDate, 103))");
+		 readStatement.setString(1, UserID);
 		   ResultSet resultSet = readStatement.executeQuery();
 		   DateFloatHolder point = null; 
 		   
@@ -285,8 +281,9 @@ public class FrameworkServlet extends HttpServlet {
 		ArrayList<DateFloatHolder> objectarray = new ArrayList<DateFloatHolder>();
 		 PreparedStatement readStatement = connection.prepareStatement("select datename(month, convert(datetime, RecordDate, 103)) as avgusagepermonth , avg([WaterUsageL/h]) as avgusage\r\n" + 
 		 		"  FROM [dbo].[WaterSensorFile]\r\n" + 
-		 		"    where CustomerID = 'cu1'\r\n" + 
+		 		"    where CustomerID = ?\r\n" + 
 		 		"  group by datename(month, convert(datetime, RecordDate, 103))");
+		 readStatement.setString(1, UserID);
 		   ResultSet resultSet = readStatement.executeQuery();
 		   DateFloatHolder point = null; 
 		   
@@ -387,9 +384,8 @@ public class FrameworkServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 	      
-	      RequestDispatcher rd =  
-	              request.getRequestDispatcher("graphTest.jsp"); 
-	      
+	      RequestDispatcher rd= 
+	    		  request.getRequestDispatcher("graphTest.jsp?id="+EncryptionUtil.encode(UserID)); 
 	      rd.forward(request, response);
 	      
 	    }

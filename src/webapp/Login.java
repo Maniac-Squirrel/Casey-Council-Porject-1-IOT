@@ -2,6 +2,7 @@ package webapp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/Login")
 public class Login extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -51,9 +53,11 @@ public class Login extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         
+        String UserID = Validate.getUserID(username);
+        
         if(Validate.checkUser(username, password))
         {
-        	response.sendRedirect(request.getContextPath() + "/FrameworkServlet");
+        	response.sendRedirect(request.getContextPath() + "/home?id="+EncryptionUtil.encode(UserID));
         }
         else
         {
