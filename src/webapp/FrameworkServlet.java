@@ -276,6 +276,90 @@ public class FrameworkServlet extends HttpServlet {
 	}
 	}
 	
+	private String getUser(Connection connection) throws SQLException
+	{
+		 PreparedStatement readStatement = connection.prepareStatement("SELECT CustomerName" + 
+			 		"  FROM [dbo].[Customers]" + 
+			 		"    where CustomerID = ?\r\n");
+		 readStatement.setString(1, UserID);
+		   ResultSet resultSet = readStatement.executeQuery();
+		   
+		if (!resultSet.next()) {
+	        log.info("There is no data in the database!");
+	        return null;
+	    } else {
+	    	System.out.println("username " + resultSet.getString(1));
+	    	return resultSet.getString(1);
+	    	
+	   
+		
+	}
+	}
+	
+	private String avgdayGas(Connection connection) throws SQLException
+	{
+		 PreparedStatement readStatement = connection.prepareStatement("select sum([GasUsageMJ/H]) as totalusage\r\n" + 
+		 		"FROM [dbo].[GasSensorFile]\r\n" + 
+		 		"where convert(datetime, RecordDate, 103) between dateadd(day,-7,getdate()) and getdate() and CustomerID = ?\r\n");
+		 readStatement.setString(1, UserID);
+		   ResultSet resultSet = readStatement.executeQuery();
+		   
+		if (!resultSet.next()) {
+	        log.info("There is no data in the database!");
+	        return null;
+	    } else {
+	    	
+	    	System.out.println("thing " + resultSet.getString(1));
+	    	double round = Math.round((resultSet.getDouble(1) * 100) / 100) / 7;
+	    	
+	    	return String.valueOf(round);
+		
+	}
+	}
+	
+	private String avgdaywater(Connection connection) throws SQLException
+	{
+		 PreparedStatement readStatement = connection.prepareStatement("select sum([WaterUsageL/h]) as totalusage\r\n" + 
+		 		"FROM [dbo].[WaterSensorFile]\r\n" + 
+		 		"where convert(datetime, RecordDate, 103) between dateadd(day,-7,getdate()) and getdate() and CustomerID = ?\r\n");
+		 readStatement.setString(1, UserID);
+		   ResultSet resultSet = readStatement.executeQuery();
+		   
+		if (!resultSet.next()) {
+	        log.info("There is no data in the database!");
+	        return null;
+	    } else {
+	    	
+	    	System.out.println("thing " + resultSet.getString(1));
+	    	double round = Math.round((resultSet.getDouble(1) * 100) / 100) / 7;
+	    	
+	    	return String.valueOf(round);
+		
+	}
+	}
+	
+	private String avgdayelec(Connection connection) throws SQLException
+	{
+		 PreparedStatement readStatement = connection.prepareStatement("select sum([ElectricityUsageKw/h]) as totalusage\r\n" + 
+		 		"FROM [dbo].[ElectricitySensorFile]\r\n" + 
+		 		"where convert(datetime, RecordDate, 103) between dateadd(day,-7,getdate()) and getdate() and CustomerID = ?\r\n");
+		 readStatement.setString(1, UserID);
+		   ResultSet resultSet = readStatement.executeQuery();
+		   
+		if (!resultSet.next()) {
+	        log.info("There is no data in the database!");
+	        return null;
+	    } else {
+	    	
+	    	System.out.println("thing " + resultSet.getString(1));
+	    	double round = Math.round((resultSet.getDouble(1) * 100) / 100) / 7;
+	    	
+	    	return String.valueOf(round);
+		
+	}
+	}
+	
+	
 	private ArrayList<DateFloatHolder> avgWaterPerMonth(Connection connection) throws SQLException
 	{
 		ArrayList<DateFloatHolder> objectarray = new ArrayList<DateFloatHolder>();
@@ -307,7 +391,6 @@ public class FrameworkServlet extends HttpServlet {
 		
 	}
 	}
-	
 	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -378,15 +461,46 @@ public class FrameworkServlet extends HttpServlet {
 		} 
 	      
 	      try {
+			request.setAttribute("UsernameVal", getUser(connection));
+		} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+		}
+	      
+	      try {
+			request.setAttribute("avgdayGas", avgdayGas(connection));
+		} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+		}
+	      
+	      try {
+			request.setAttribute("avgdayWater", avgdaywater(connection));
+		} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+		}
+	      
+	      try {
+			request.setAttribute("avgdayElec", avgdayelec(connection));
+		} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+		}
+	      
+	      try {
 				connection.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	      
+
 	      RequestDispatcher rd= 
 	    		  request.getRequestDispatcher("graphTest.jsp?id="+EncryptionUtil.encode(UserID)); 
 	      rd.forward(request, response);
+	      
+
 	      
 	    }
 
