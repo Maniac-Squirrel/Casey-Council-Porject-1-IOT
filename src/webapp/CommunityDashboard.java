@@ -360,6 +360,26 @@ public class CommunityDashboard extends HttpServlet {
 	}
 	}
 	
+	private String getUser(Connection connection) throws SQLException
+	{
+		 PreparedStatement readStatement = connection.prepareStatement("SELECT CustomerName" + 
+			 		"  FROM [dbo].[Customers]" + 
+			 		"    where CustomerID = ?\r\n");
+		 readStatement.setString(1, UserID);
+		   ResultSet resultSet = readStatement.executeQuery();
+		   
+		if (!resultSet.next()) {
+	        log.info("There is no data in the database!");
+	        return null;
+	    } else {
+	    	System.out.println("username " + resultSet.getString(1));
+	    	return resultSet.getString(1);
+	    	
+	   
+		
+	}
+	}
+	
 	
 	 protected void processRequest(HttpServletRequest request, 
              HttpServletResponse response) 
@@ -376,6 +396,7 @@ public class CommunityDashboard extends HttpServlet {
 			request.setAttribute("communityIndiv7daywater", communitywaterlast7days(connection));
 			request.setAttribute("communityIndiv7dayelec", communityelectricitylast7days(connection));
 			request.setAttribute("communityIndiv7daygas", communitygaslast7days(connection));
+			request.setAttribute("UsernameVal", getUser(connection));
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

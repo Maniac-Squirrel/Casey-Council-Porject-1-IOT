@@ -37,6 +37,11 @@ ArrayList<DateFloatHolder> avgwaterperday =
 ArrayList<DateFloatHolder> avgwaterpermonth =  
 (ArrayList<DateFloatHolder>)request.getAttribute("avgperwatermonth");
 
+String Username = (String)request.getAttribute("UsernameVal");
+String avgdayGas = (String)request.getAttribute("avgdayGas");
+String avgdaywater = (String)request.getAttribute("avgdayWater");
+String avgdayelec = (String)request.getAttribute("avgdayElec");
+
 
 
 
@@ -71,11 +76,41 @@ String dataPoints4 = gsonObj.toJson(gasperdaylist);
 String dataPoints5 = gsonObj.toJson(waterperdaylist);
 String dataPoints6 = gsonObj.toJson(waterpermonthlist);
 
+String user = gsonObj.toJson(Username);
+String dayGas = gsonObj.toJson(avgdayGas);
+String dayWater = gsonObj.toJson(avgdaywater);
+String dayElec = gsonObj.toJson(avgdayelec);
+
 %>
  
 <!DOCTYPE HTML>
 <html>
+
 <head>
+
+<link rel="stylesheet" type="text/css" href="mainGraphs.css" media="screen"/>
+<ul>
+  <li><form action="login" method="post">
+		<input type="submit" value="Log out"/>
+		</form></li>	
+		
+  <li><form action="profile?id=<%= request.getParameter("id") %>" method="post">
+		<input type="submit" value="User Preferences"/>
+		</form></li>
+		
+  <li><form action="community?id=<%= request.getParameter("id") %>" method="post">
+		<input type="submit" value="Community Graphs"/>
+		</form></li>
+		
+  <li><form action="home?id=<%= request.getParameter("id") %>" method="post">
+		<a class = "active"><input type="submit" value="Individual Graphs"/></a>
+		</form></li>
+		
+  <li style="float:left"><a class = userLabel><script>document.write(<%out.print(user);%>)</script></a></li>
+  
+  <li style="float:left"><a class = userLabel><script>var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }; document.write(new Date().toLocaleDateString("en-US", options));</script></a></li>
+
+</ul>
 	
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -85,6 +120,7 @@ window.onload = function() {
 var chart = new CanvasJS.Chart("chartContainer", {
 	animationEnabled: true,
 	exportEnabled: true,
+	backgroundColor: "#F5F5F5",
 	title: {
 		text: "Average electricity usage per day"
 	},
@@ -92,7 +128,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 		includeZero: true
 	},
 	data: [{
-		type: "line", //change type to bar, line, area, pie, etc
+		type: "column", //change type to bar, line, area, pie, etc
 		//indexLabel: "{y}", //Shows y value on all Data Points
 		indexLabelFontColor: "#5A5757",
 		indexLabelPlacement: "outside",
@@ -103,6 +139,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 var chart2 = new CanvasJS.Chart("chartContainer2", {
 	animationEnabled: true,
 	exportEnabled: true,
+	backgroundColor: "#F5F5F5",
 	title: {
 		text: "Average electricity usage per month"
 	},
@@ -110,7 +147,7 @@ var chart2 = new CanvasJS.Chart("chartContainer2", {
 		includeZero: true
 	},
 	data: [{
-		type: "line", //change type to bar, line, area, pie, etc
+		type: "column", //change type to bar, line, area, pie, etc
 		//indexLabel: "{y}", //Shows y value on all Data Points
 		indexLabelFontColor: "#5A5757",
 		indexLabelPlacement: "outside",
@@ -121,6 +158,7 @@ var chart2 = new CanvasJS.Chart("chartContainer2", {
 var chart3 = new CanvasJS.Chart("chartContainer3", {
 	animationEnabled: true,
 	exportEnabled: true,
+	backgroundColor: "#F5F5F5",
 	title: {
 		text: "Average Gas usage per month"
 	},
@@ -128,7 +166,7 @@ var chart3 = new CanvasJS.Chart("chartContainer3", {
 		includeZero: true
 	},
 	data: [{
-		type: "line", //change type to bar, line, area, pie, etc
+		type: "column", //change type to bar, line, area, pie, etc
 		//indexLabel: "{y}", //Shows y value on all Data Points
 		indexLabelFontColor: "#5A5757",
 		indexLabelPlacement: "outside",
@@ -139,6 +177,7 @@ var chart3 = new CanvasJS.Chart("chartContainer3", {
 var chart4 = new CanvasJS.Chart("chartContainer4", {
 	animationEnabled: true,
 	exportEnabled: true,
+	backgroundColor: "#F5F5F5",
 	title: {
 		text: "Average Gas usage per day"
 	},
@@ -146,7 +185,7 @@ var chart4 = new CanvasJS.Chart("chartContainer4", {
 		includeZero: true
 	},
 	data: [{
-		type: "line", //change type to bar, line, area, pie, etc
+		type: "column", //change type to bar, line, area, pie, etc
 		//indexLabel: "{y}", //Shows y value on all Data Points
 		indexLabelFontColor: "#5A5757",
 		indexLabelPlacement: "outside",
@@ -157,6 +196,7 @@ var chart4 = new CanvasJS.Chart("chartContainer4", {
 var chart5 = new CanvasJS.Chart("chartContainer5", {
 	animationEnabled: true,
 	exportEnabled: true,
+	backgroundColor: "#F5F5F5",
 	title: {
 		text: "Average water usage per day"
 	},
@@ -164,7 +204,7 @@ var chart5 = new CanvasJS.Chart("chartContainer5", {
 		includeZero: true
 	},
 	data: [{
-		type: "line", //change type to bar, line, area, pie, etc
+		type: "column", //change type to bar, line, area, pie, etc
 		//indexLabel: "{y}", //Shows y value on all Data Points
 		indexLabelFontColor: "#5A5757",
 		indexLabelPlacement: "outside",
@@ -175,6 +215,7 @@ var chart5 = new CanvasJS.Chart("chartContainer5", {
 var chart6 = new CanvasJS.Chart("chartContainer6", {
 	animationEnabled: true,
 	exportEnabled: true,
+	backgroundColor: "#F5F5F5",
 	title: {
 		text: "Average water usage per month"
 	},
@@ -182,7 +223,7 @@ var chart6 = new CanvasJS.Chart("chartContainer6", {
 		includeZero: true
 	},
 	data: [{
-		type: "line", //change type to bar, line, area, pie, etc
+		type: "column", //change type to bar, line, area, pie, etc
 		//indexLabel: "{y}", //Shows y value on all Data Points
 		indexLabelFontColor: "#5A5757",
 		indexLabelPlacement: "outside",
@@ -205,25 +246,31 @@ chart6.render();
 
 </head>
 <body>
-<div id="chartContainer" style="height: 150px; width: 50%;"></div>
-<div id="chartContainer2" style="height: 150px; width: 50%;"></div>
-<div id="chartContainer3" style="height: 150px; width: 50%;"></div>
-<div id="chartContainer4" style="height: 150px; width: 50%;"></div>
-<div id="chartContainer5" style="height: 150px; width: 50%;"></div>
-<div id="chartContainer6" style="height: 150px; width: 50%;"></div>
+
+<div class="myDiv" style="float: left;">
+  <p>Gas 7-day average</p>
+  <h2><script>document.write(<%out.print(dayGas);%>)</script>MJ</h2>
+</div>
+
+<div class="myDiv" style="float: left;">
+  <p>Electricity 7-day average</p>
+  <h2><script>document.write(<%out.print(dayElec);%>)</script>Kw</h2>
+</div>
+
+<div class="myDiv" style="float: left;">
+  <p>Water 7-day average</p>
+  <h2><script>document.write(<%out.print(dayWater);%>)</script>L<h2>
+</div>
+
+
+ <div id="chartContainer" style="float: left; height: 200px; width: 50%; margin-top: 40px; margin-bottom: 40px; box-sizing: border-box;"></div>
+ <div id="chartContainer2" style="float: right; height: 200px; width: 50%; margin-top: 40px;  margin-bottom: 40px;box-sizing: border-box;"></div>
+ <div id="chartContainer3" style="float: left; height: 200px; width: 50%; margin-top: 0px;  margin-bottom: 40px;box-sizing: border-box;"></div>
+ <div id="chartContainer4" style="float: right; height: 200px; width: 50%; margin-top: 00px;  margin-bottom: 40px;box-sizing: border-box;"></div>
+  <div id="chartContainer5" style="float: left; height: 200px; width: 50%; margin-top: 0px;  margin-bottom: 40px;box-sizing: border-box;"></div>
+ <div id="chartContainer6" style="float: right; height: 200px; width: 50%; margin-top: 00px;  margin-bottom: 40px;box-sizing: border-box;"></div>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-
-<br>
-
-<form action="community?id=<%= request.getParameter("id") %>" method="post">
-		<input type="submit" value="Community Graphs"/>
-		</form>
-		
-<br>				
-		
-<form action="profile?id=<%= request.getParameter("id") %>" method="post">
-		<input type="submit" value="User Preferences"/>
-		</form>		
+	
 
 </body>
 </html>          
