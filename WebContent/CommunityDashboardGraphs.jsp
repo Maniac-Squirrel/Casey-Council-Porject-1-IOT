@@ -40,6 +40,8 @@ ArrayList<DateFloatHolder> electricityLast7days =
 ArrayList<DateFloatHolder> gasLast7days =  
 (ArrayList<DateFloatHolder>)request.getAttribute("communityIndiv7daygas");
 
+String Username = (String)request.getAttribute("UsernameVal");
+
 
 map = new HashMap<Object,Object>(); map.put("label", "Total individual electricity consumption"); map.put("y", totalElecCons.get(0)); Totaleleclist.add(map);
 map = new HashMap<Object,Object>(); map.put("label", "Total community electricity consumption"); map.put("y", totalElecCons.get(1)); Totaleleclist.add(map);
@@ -76,13 +78,37 @@ String dataPoints7 = gsonObj.toJson(indivelec7daysLinelist);
 String dataPoints8 = gsonObj.toJson(communitygas7daysLinelist);
 String dataPoints9 = gsonObj.toJson(indivgas7daysLinelist);
 
+String user = gsonObj.toJson(Username);
 
 %>
  
 <!DOCTYPE HTML>
 <html>
+<link rel="stylesheet" type="text/css" href="communityGraphs.css" media="screen"/>
 <head>
-	
+<link rel="stylesheet" type="text/css" href="mainGraphs.css" media="screen"/>
+<ul>
+  <li><form action="login" method="post">
+		<input type="submit" value="Log out"/>
+		</form></li>	
+		
+  <li><form action="profile?id=<%= request.getParameter("id") %>" method="post">
+		<input type="submit" value="User Preferences"/>
+		</form></li>
+		
+  <li><form action="community?id=<%= request.getParameter("id") %>" method="post">
+  		<a class = "active"><input type="submit" value="Community Graphs"/></a>
+		</form></li>
+		
+  <li><form action="home?id=<%= request.getParameter("id") %>" method="post">
+		<input type="submit" value="Individual Graphs"/>
+		</form></li>
+		
+  <li style="float:left"><a class = userLabel><script>document.write(<%out.print(user);%>)</script></a></li>
+  
+  <li style="float:left"><a class = userLabel><script>var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }; document.write(new Date().toLocaleDateString("en-US", options));</script></a></li>
+
+</ul>	
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript">
@@ -323,24 +349,12 @@ chart6.render();
 
 </head>
 <body>
-<div id="chartContainer" style="height: 150px; width: 50%;"></div>
-<div id="chartContainer2" style="height: 150px; width: 50%;"></div>
-<div id="chartContainer3" style="height: 150px; width: 50%;"></div>
-<div id="chartContainer4" style="height: 300px; width: 50%;"></div>
-<div id="chartContainer5" style="height: 300px; width: 50%;"></div>
-<div id="chartContainer6" style="height: 300px; width: 50%;"></div>
+ <div id="chartContainer" style="float: left; height: 200px; width: 50%; margin-top: 40px; margin-bottom: 40px; box-sizing: border-box;"></div>
+ <div id="chartContainer2" style="float: right; height: 200px; width: 50%; margin-top: 40px;  margin-bottom: 40px;box-sizing: border-box;"></div>
+ <div id="chartContainer3" style="float: left; height: 200px; width: 50%; margin-top: 0px;  margin-bottom: 40px;box-sizing: border-box;"></div>
+ <div id="chartContainer4" style="float: right; height: 200px; width: 50%; margin-top: 00px;  margin-bottom: 40px;box-sizing: border-box;"></div>
+  <div id="chartContainer5" style="float: left; height: 200px; width: 50%; margin-top: 0px;  margin-bottom: 40px;box-sizing: border-box;"></div>
+ <div id="chartContainer6" style="float: right; height: 200px; width: 50%; margin-top: 00px;  margin-bottom: 40px;box-sizing: border-box;"></div>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-
-<br>
-
-<form action="home?id=<%= request.getParameter("id") %>" method="post">
-		<input type="submit" value="Individual Graphs"/>
-		</form>
-		
-<br>		
-		
-<form action="profile?id=<%= request.getParameter("id") %>" method="post">
-		<input type="submit" value="User Preferences"/>
-		</form>	
 </body>
 </html>          
