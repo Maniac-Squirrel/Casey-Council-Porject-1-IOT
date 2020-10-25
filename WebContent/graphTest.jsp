@@ -88,9 +88,9 @@ String dayElec = gsonObj.toJson(avgdayelec);
 
 <head>
 
-<link rel="stylesheet" type="text/css" href="mainGraphs.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="css/mainGraphs.css" media="screen"/>
 <ul>
-  <li><form action="login" method="post">
+  <li><form action="index.jsp" method="post">
 		<input type="submit" value="Log out"/>
 		</form></li>	
 		

@@ -84,11 +84,11 @@ String user = gsonObj.toJson(Username);
  
 <!DOCTYPE HTML>
 <html>
-<link rel="stylesheet" type="text/css" href="communityGraphs.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="css/communityGraphs.css" media="screen"/>
 <head>
-<link rel="stylesheet" type="text/css" href="mainGraphs.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="css/mainGraphs.css" media="screen"/>
 <ul>
-  <li><form action="login" method="post">
+  <li><form action="index.jsp" method="post">
 		<input type="submit" value="Log out"/>
 		</form></li>	
 		

@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,8 +22,12 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/UserPrefs")
 public class UserPrefs extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	String UserID, Username, Password, CheckID;
+	static String UserID;
+	String Username;
+	String Password;
+	String CheckID;
 	boolean CheckUsername = false, UpdateUsername = true;
+	private String CuName;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -38,6 +43,8 @@ public class UserPrefs extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		UserID = EncryptionUtil.decode(request.getParameter("id"));
+    	CuName = getCuName(EncryptionUtil.decode(request.getParameter("id")));
+		System.out.println(CuName);
 	}
 
 	/**
@@ -94,7 +101,7 @@ public class UserPrefs extends HttpServlet {
 			            		CheckUsername = true;
 			            		
 			            	} else {
-			            	out.println("<html><font color=red>Username already taken!</font></html>");
+			            	out.println("<html><font font-size=28px color=red style=\" margin-left: 45%; font-size: 24px;\">Username already taken!</font></html>");
 			            	UpdateUsername = false;
 			            	}
 			            	
@@ -105,7 +112,7 @@ public class UserPrefs extends HttpServlet {
 				            updateStatement.setString(2, Password);
 				    	    updateStatement.setString(3, UserID);
 				    	    updateStatement.executeUpdate();
-			            	out.println("<html><font color=green>Password updated successfully!</font></html>");
+			            	out.println("<html><font color=green style=\" margin-left: 43%; font-size:24px\">Password updated successfully!</font></html>");
 			            	CheckUsername = false;
 			            	
 						} else if (UpdateUsername) {
@@ -114,15 +121,50 @@ public class UserPrefs extends HttpServlet {
 				            updateStatement.setString(2, Password);
 				    	    updateStatement.setString(3, UserID);
 				    	    updateStatement.executeUpdate();
-			            	out.println("<html><font color=green>Username and Password updated successfully!</font></html>");
+			            	out.println("<html><font color=green style=\" margin-left: 40%; font-size:24px;\">Username and Password updated successfully!</font></html>");
 			            }
+			            
+			            UpdateUsername = true;
 			    	        	    
 			        }
 			        catch(Exception e) {
 			            e.printStackTrace();
 			        }
 		}
-		
 	}
+	
+	public static String getCuName (String username) {
+		String UserName = null;
+		try {
 
+            //loading drivers for mysql
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+    		
+            Connection connection = null;
+            
+            try {
+    			connection = DriverManager.getConnection("jdbc:sqlserver://iotdbserver01.database.windows.net:1433;database=IOTData;user=sysAdmin@iotdbserver01;password=fhxghjk,157.;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;");
+    			
+    			
+
+    		} catch (SQLException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+
+            PreparedStatement readStatement = connection.prepareStatement("SELECT CustomerName FROM Customers WHERE CustomerID=?;");
+    	    readStatement.setString(1, username);
+    	    ResultSet UserData = readStatement.executeQuery();
+    	    while (UserData.next()) {
+    	    	UserName = UserData.getString("CustomerName");	
+    	    }
+    	        	    
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+		return UserName;
+	}
+				
 }
+
