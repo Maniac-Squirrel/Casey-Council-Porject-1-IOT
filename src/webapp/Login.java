@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.JOptionPane;
 
 /**
  * Servlet implementation class Login
@@ -18,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 public class Login extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-       
+    public boolean error = false;   
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -61,9 +62,7 @@ public class Login extends HttpServlet {
         }
         else
         {
-        	RequestDispatcher rs = request.getRequestDispatcher("index.jsp");
-        	rs.include(request, response);
-        	out.println("<html><font color=red>Username or Password Incorrect!</font></html>");
+        	response.sendRedirect(request.getContextPath());
         }
 		
 	}
