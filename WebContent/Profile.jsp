@@ -53,7 +53,7 @@ String user = gsonObj.toJson(Username);
 			<section class="login-form">
 				<form method="post" action="profile?id=<%= request.getParameter("id") %>" role="login">
 					<h2>Update details</h2>
-					<p>Please enter new username and password, if you would like to continue using the same username or password please re-enter it in the field below!</p>
+					<p>Please enter new a username and password, if you would like to continue using the same username or password please re-enter it in the field below!</p>
 					<div class="form-group">
 	    				<div class="input-group">
 		      				<div class="input-group-addon"><span class="text-primary glyphicon glyphicon-user"></span></div>

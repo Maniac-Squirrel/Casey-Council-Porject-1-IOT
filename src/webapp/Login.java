@@ -62,7 +62,9 @@ public class Login extends HttpServlet {
         }
         else
         {
-        	response.sendRedirect(request.getContextPath());
+        	RequestDispatcher rs = request.getRequestDispatcher("index.jsp");
+        	rs.include(request, response);
+        	out.println("<html><font font-size=38px color=red style=\" margin-left: 38%; font-size: 38px; -webkit-text-stroke: 1px white; font-weight: bold;\">Incorrect username or password!</font></html>");
         }
 		
 	}

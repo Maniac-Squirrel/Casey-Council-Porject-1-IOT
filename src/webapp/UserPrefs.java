@@ -101,7 +101,7 @@ public class UserPrefs extends HttpServlet {
 			            		CheckUsername = true;
 			            		
 			            	} else {
-			            	out.println("<html><font color=red>Username already taken!</font></html>");
+			            	out.println("<html><font font-size=28px color=red style=\" margin-left: 45%; font-size: 24px;\">Username already taken!</font></html>");
 			            	UpdateUsername = false;
 			            	}
 			            	
@@ -112,7 +112,7 @@ public class UserPrefs extends HttpServlet {
 				            updateStatement.setString(2, Password);
 				    	    updateStatement.setString(3, UserID);
 				    	    updateStatement.executeUpdate();
-			            	out.println("<html><font color=green>Password updated successfully!</font></html>");
+			            	out.println("<html><font color=green style=\" margin-left: 43%; font-size:24px\">Password updated successfully!</font></html>");
 			            	CheckUsername = false;
 			            	
 						} else if (UpdateUsername) {
@@ -121,7 +121,7 @@ public class UserPrefs extends HttpServlet {
 				            updateStatement.setString(2, Password);
 				    	    updateStatement.setString(3, UserID);
 				    	    updateStatement.executeUpdate();
-			            	out.println("<html><font color=green>Username and Password updated successfully!</font></html>");
+			            	out.println("<html><font color=green style=\" margin-left: 40%; font-size:24px;\">Username and Password updated successfully!</font></html>");
 			            }
 			            
 			            UpdateUsername = true;
